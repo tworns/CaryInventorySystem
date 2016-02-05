@@ -9,6 +9,7 @@ import java.awt.Font;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -50,10 +51,12 @@ public class MainView {
 		frmCaryInventoryManager.setBounds(100, 100, 818, 440);
 		frmCaryInventoryManager.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCaryInventoryManager.getContentPane().setLayout(null);
-		DefaultListModel checkIn;
-		DefaultListModel checkOut;
-		JList checkOutList;
-		JList checkInList;
+		DefaultListModel checkIn = new DefaultListModel();
+		DefaultListModel checkOut = new DefaultListModel();
+		JList checkOutList = new JList();
+		JList checkInList = new JList();
+		checkOut.addElement("Element");
+		//checkOut.s
 		
 		JLabel lblEquipmentCheckOut = new JLabel("Equipment Check Out");
 		lblEquipmentCheckOut.setFont(new Font("Georgia", Font.BOLD, 16));
@@ -68,7 +71,13 @@ public class MainView {
 		JButton btnCheckOutItem = new JButton("Check Out Item");
 		btnCheckOutItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				if(checkInList.getSelectedIndex() > 0) {
+					checkIn.addElement(checkOut.getElementAt(checkInList.getSelectedIndex()));
+					checkOut.remove(checkInList.getSelectedIndex());
+				}
+				else { 
+					JOptionPane.showMessageDialog(frmCaryInventoryManager, "Please select a valid list element");
+				}
 				
 			}
 		});
@@ -79,13 +88,13 @@ public class MainView {
 		btnCheckInItem.setBounds(494, 304, 138, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckInItem);
 		
-		checkOutList = new JList();
-		checkOut = new DefaultListModel();
+		//CHECK OUT LIST CODE
+		checkOutList.setModel(checkOut);
 		checkOutList.setBounds(118, 53, 240, 181);
 		frmCaryInventoryManager.getContentPane().add(checkOutList);
 		
-		checkInList = new JList();
-		checkIn = new DefaultListModel();
+		
+		//CHECK IN LIST CODE
 		checkInList.setModel(checkIn);
 		checkInList.setBounds(452, 53, 240, 181);
 		frmCaryInventoryManager.getContentPane().add(checkInList);
