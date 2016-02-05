@@ -57,11 +57,6 @@ public class MainView {
 		JList checkOutList = new JList();
 		JList checkInList = new JList();
 		checkOut.addElement("Element");
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Thomas\\Downloads\\gT83EWF.gif"));
-		lblNewLabel.setBounds(28, 25, 387, 321);
-		frmCaryInventoryManager.getContentPane().add(lblNewLabel);
 		//checkOut.s
 		
 		JLabel lblEquipmentCheckOut = new JLabel("Equipment Check Out");
@@ -87,11 +82,11 @@ public class MainView {
 				
 			}
 		});
-		btnCheckOutItem.setBounds(167, 270, 138, 25);
+		btnCheckOutItem.setBounds(169, 270, 138, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckOutItem);
 		
 		JButton btnCheckInItem = new JButton("Check In Item");
-		btnCheckInItem.setBounds(492, 270, 138, 25);
+		btnCheckInItem.setBounds(503, 270, 138, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckInItem);
 		
 		//CHECK OUT LIST CODE
@@ -110,11 +105,11 @@ public class MainView {
 		frmCaryInventoryManager.getContentPane().add(separator);
 		
 		JButton btnAddNewEquipment = new JButton("Add New Equipment");
-		btnAddNewEquipment.setBounds(167, 304, 160, 25);
+		btnAddNewEquipment.setBounds(158, 304, 160, 25);
 		frmCaryInventoryManager.getContentPane().add(btnAddNewEquipment);
 		
 		JButton btnReportDamagedEquipment = new JButton("Report Damaged Equipment");
-		btnReportDamagedEquipment.setBounds(464, 304, 203, 25);
+		btnReportDamagedEquipment.setBounds(471, 304, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnReportDamagedEquipment);
 		
 		JButton btnRemoveEquipment = new JButton("Remove Equipment ");
