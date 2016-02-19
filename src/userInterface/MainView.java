@@ -11,9 +11,10 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
+
 
 public class MainView {
 
@@ -55,8 +56,11 @@ public class MainView {
 		DefaultListModel checkIn = new DefaultListModel();
 		DefaultListModel checkOut = new DefaultListModel();
 		JList checkOutList = new JList();
+
 		JList checkInList = new JList();
 		checkOut.addElement("Element");
+		checkOut.addElement("Element2");
+		
 		//checkOut.s
 		
 		JLabel lblEquipmentCheckOut = new JLabel("Equipment Check Out");
@@ -71,33 +75,69 @@ public class MainView {
 		
 		JButton btnCheckOutItem = new JButton("Check Out Item");
 		btnCheckOutItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(checkInList.getSelectedIndex() > 0) {
-					checkIn.addElement(checkOut.getElementAt(checkInList.getSelectedIndex()));
-					checkOut.remove(checkInList.getSelectedIndex());
-				}
-				else { 
+			public void actionPerformed(ActionEvent e) {
+				boolean isAdjusting = checkOutList.getValueIsAdjusting();
+
+				if(checkOutList.isSelectionEmpty()) { 
 					JOptionPane.showMessageDialog(frmCaryInventoryManager, "Please select a valid list element");
 				}
+				if( !isAdjusting && !checkOutList.isSelectionEmpty() && (checkOutList.getMinSelectionIndex() < checkOutList.getMaxSelectionIndex())){ 
+					checkIn.addElement(checkOutList.getSelectedValue());
+					checkOut.remove(checkOutList.getSelectedIndex());
+				}
+				else { 
+					int[] k = checkOutList.getSelectedIndices();
+					for(int i = 0; i < k.length; i++){
+						if(checkOutList.isSelectedIndex(i)) { 
+							checkIn.addElement(checkOut.get(i));
+							checkOut.remove(i);
+						}
+					}
+					
+				}
 				
-			}
+			}				
 		});
 		btnCheckOutItem.setBounds(169, 270, 138, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckOutItem);
 		
 		JButton btnCheckInItem = new JButton("Check In Item");
+		btnCheckInItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				boolean isAdjusting = checkInList.getValueIsAdjusting();
+
+				if(checkInList.isSelectionEmpty()) { 
+					JOptionPane.showMessageDialog(frmCaryInventoryManager, "Please select a valid list element");
+				}
+				if( !isAdjusting && !checkInList.isSelectionEmpty() && (checkInList.getMinSelectionIndex() < checkInList.getMaxSelectionIndex())){ 
+					checkOut.addElement(checkInList.getSelectedValue());
+					checkIn.remove(checkInList.getSelectedIndex());
+				}
+				else { 
+					int[] k = checkInList.getSelectedIndices();
+					for(int i = 0; i < k.length; i++){
+						if(checkInList.isSelectedIndex(i)) { 
+							checkOut.addElement(checkIn.get(i));
+							checkIn.remove(i);
+						}
+					}
+					
+				}
+				
+			}				
+		});
 		btnCheckInItem.setBounds(503, 270, 138, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckInItem);
 		
 		//CHECK OUT LIST CODE
 		checkOutList.setModel(checkOut);
-		checkOutList.setBounds(118, 53, 240, 181);
+		checkOutList.setBounds(117, 53, 240, 181);
 		frmCaryInventoryManager.getContentPane().add(checkOutList);
 		
 		
 		//CHECK IN LIST CODE
 		checkInList.setModel(checkIn);
-		checkInList.setBounds(452, 53, 240, 181);
+		checkInList.setBounds(453, 53, 240, 181);
 		frmCaryInventoryManager.getContentPane().add(checkInList);
 		
 		JSeparator separator = new JSeparator();
@@ -109,6 +149,11 @@ public class MainView {
 		frmCaryInventoryManager.getContentPane().add(btnAddNewEquipment);
 		
 		JButton btnReportDamagedEquipment = new JButton("Report Damaged Equipment");
+		btnReportDamagedEquipment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// Just flipping numbers now
+			}
+		});
 		btnReportDamagedEquipment.setBounds(471, 304, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnReportDamagedEquipment);
 		
