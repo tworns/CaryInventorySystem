@@ -1,5 +1,6 @@
 package userInterface;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -119,6 +120,9 @@ public class MainView {
 						if(checkInList.isSelectedIndex(i)) { 
 							checkOut.addElement(checkIn.get(i));
 							checkIn.remove(i);
+							//SELCECTION COLOR CODE
+							Color c = new Color(255, 0,0, 85);
+							checkInList.setSelectionBackground(c);
 						}
 					}
 					
