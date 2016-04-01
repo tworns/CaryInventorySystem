@@ -8,7 +8,8 @@ public class Equipment {
 	int itemType; // 0 = equipment, 1= games, 2 = food, 3 = tools
 	String section;
 	String itemName;
-	public Equipment(int id, int boxNum, int status, int repairNeeded, int itemType, String section, String itemName){
+	public Equipment(int id, int boxNum, int status, int repairNeeded, 
+			int itemType, String section, String itemName){
 		this.id = id;
 		this.status = status;
 		this.repairNeeded = repairNeeded;
@@ -35,7 +36,9 @@ public class Equipment {
 	public String getName() { 
 		return this.itemName;
 	}
-	
+	public int getType(){ 
+		return this.itemType;
+	}
 	
 	//Setters
 	public void setBox(int boxNum) { 
@@ -59,5 +62,5 @@ public class Equipment {
 		
 		return e.itemName;
 	}
-	
+
 }

@@ -1,19 +1,13 @@
 package actualItems;
-
-import java.io.UnsupportedEncodingException;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+
 
 
 public class DatabaseManager {
 	private static String database_name;
 
 	public DatabaseManager(String database) {
-		database_name = database;
+		database_name = database; //equipment
 	}
 
 	public static String getCurrentDatabase() {
@@ -42,6 +36,7 @@ public class DatabaseManager {
 		try {
 			Statement stmt = DBconnection.createStatement();
 			String sql = "CREATE TABLE equipment(" 
+			+"'id'  		INTEGER		NOT NULL "
 			+ "'section'	TEXT		NOT NULL," 
 			+ "'box'		INTEGER		NOT NULL,"	
 			+ "'name'		TEXT		NOT NULL,"
@@ -54,18 +49,140 @@ public class DatabaseManager {
 			stmt.close();
 			DBconnection.close();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			System.err.println(e.getClass().getName() + ":"+ e.getMessage());
 			e.printStackTrace();
 		}
 		
 	}
-public int addEquipment(Equipment Eq) { 
-	
-	
-	return 0;
-	
+public int addEquipment(Equipment eq) { // 1 if success, -1 if fail
+	Connection DBconnection = connectToDatabase();
+	try{ 
+		Statement stmt = DBconnection.createStatement();
+		ResultSet results = stmt.executeQuery("SELECT count(*) FROM equipment WHERE name = "
+				+ "'" + eq.getName() + "';");
+		if(results.getInt(1)!= 0) { 
+			results.close();
+			stmt.close();
+			DBconnection.close();
+			return -1;
+		}
+		
+		else { 
+			String sql = "INSERT INTO equipment (section, box, name, status, repair, type"
+					+ "VALUES (" + "'" + eq.getSection() + "', " + "'" + eq.getBox() +"', " + "'" + eq.getName() +"', "
+					+ "'" + eq.getStatus() +"'," + "'" + eq.getRepair() + "'," + "'" + eq.getType() + "');";
+			stmt.executeUpdate(sql);
+			DBconnection.commit();
+			stmt.close();
+			DBconnection.close();
+			return 1;
+		}
+	}
+	catch(Exception e){ 
+		System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		e.printStackTrace();
+		return -1;
+	}
 }
 	
+public int deleteEquipment(Equipment doomed){  // 1 if success, -1 if fail
+	Connection DBconnection = connectToDatabase();
+	try{
+		Statement stmt = DBconnection.createStatement();
+		String sql = "DELETE FROM equipment WHERE name = " +"'" + doomed.getName() + "';";
+		stmt.executeUpdate(sql);
+		DBconnection.commit();
+		stmt.close();
+		DBconnection.close();
+		return 1;
+	}
+	catch(SQLException e) {
+		System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		e.printStackTrace();
+		return -1;
+	}
+}
+
+public Equipment retrieveEquipment(String name) { 
+		Connection DBconnection = connectToDatabase();
+		Statement stmt;
+		try {
+			stmt = DBconnection.createStatement();
+		
+		String sql = "SELECT * FROM equipment WHERE name = "+"'"+ name+"';";
+		ResultSet equipmentInfoSet = stmt.executeQuery(sql);
+		if(equipmentInfoSet.isClosed()){ 
+			equipmentInfoSet.close();
+			stmt.close();
+			DBconnection.close();
+			return null;
+		}
+			
+			String section = equipmentInfoSet.getString("section");
+			int box = equipmentInfoSet.getInt("box");
+			int status = equipmentInfoSet.getInt("status");
+			int repair = equipmentInfoSet.getInt("repair");
+			int type = equipmentInfoSet.getInt("type");
+			int id = equipmentInfoSet.getInt("id");
+			Equipment equip = new Equipment(id,box,status,repair,type,section,name);
+			equipmentInfoSet.close();
+			stmt.close();
+			DBconnection.close();
+			
+			return equip; 
+			
+		
+		}
+		catch (Exception e) {
+			// Auto-generated catch block
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			e.printStackTrace();
+			try { 
+				DBconnection.close();
+			}
+			catch(Exception e1) { 
+				e1.printStackTrace();
+				
+			}
+			return null;
+		}
+		
+	}
+
+
+public void modifyStringEquipment(Equipment eq, String field, String val ){ 
+	Connection DBconnection = connectToDatabase();
+	try {
+		Statement stmt = DBconnection.createStatement();
+		String sql = "UPDATE equipment SET " + field + " = '" + val + "' "
+				+"WHERE name = '" + eq.getName() + "';";
+		stmt.executeQuery(sql);
+		DBconnection.commit();
+		stmt.close();
+		DBconnection.close();
+	} catch (Exception e) {
+		//  Auto-generated catch block
+		System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		e.printStackTrace();
+	}
+
 	
+}
+
+public void modifyIntEquipment(Equipment eq, String field, int val){
+	Connection DBconnection = connectToDatabase();
+	try {
+		Statement stmt = DBconnection.createStatement();
+		String sql = "UPDATE equipment SET " + field + " = " + String.valueOf(val) + " "
+				+ "WHERE name = '" +eq.getName() + "';";
+		stmt.executeQuery(sql);
+		DBconnection.commit();
+		stmt.close();
+		DBconnection.close();
+	} catch (Exception e) {
+		//  Auto-generated catch block
+		System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		e.printStackTrace();
+	}
+}
 }
