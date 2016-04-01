@@ -95,10 +95,10 @@ public class MainView {
 					int[] k = checkOutList.getSelectedIndices();
 					checkOutList.setSelectedIndices(k);
 					for(int i = 0; i < k.length; i++){
-						if(checkOutList.isSelectedIndex(i)) { 
-							checkIn.addElement(checkOut.get(i));
+						if(checkOutList.isSelectedIndex(k[i])) { 
+							checkIn.addElement(checkOut.get(k[i]));
 							System.out.println("Multi selection mode");
-							checkOut.remove(i);
+							checkOut.remove(k[i]);
 						}
 					}
 					
@@ -117,19 +117,22 @@ public class MainView {
 				if(checkInList.isSelectionEmpty()) { 
 					JOptionPane.showMessageDialog(frmCaryInventoryManager, "Please select a valid list element");
 				}
-				if( !isAdjusting && !checkInList.isSelectionEmpty() && (checkInList.getMinSelectionIndex() < checkInList.getMaxSelectionIndex())){ 
+				/*if( !isAdjusting && !checkInList.isSelectionEmpty() && (checkInList.getMinSelectionIndex() < checkInList.getMaxSelectionIndex())){ 
+
 					checkOut.addElement(checkInList.getSelectedValue());
 					checkIn.remove(checkInList.getSelectedIndex());
-				}
+					
+				}*/
 				else { 
 					int[] k = checkInList.getSelectedIndices();
 					for(int i = 0; i < k.length; i++){
-						if(checkInList.isSelectedIndex(i)) { 
-							checkOut.addElement(checkIn.get(i));
-							checkIn.remove(i);
-							//SELCECTION COLOR CODE
+						System.out.println(k[i]);
+						if(checkInList.isSelectedIndex(k[i])) { 
+							checkOut.addElement(checkIn.get(k[i]));
+							checkIn.remove(k[i]);
+							/*SELCECTION COLOR CODE
 							Color c = new Color(255, 0,0, 85);
-							checkInList.setSelectionBackground(c);
+							checkInList.setSelectionBackground(c);*/
 						}
 					}
 					
