@@ -45,7 +45,7 @@ public class EditEquipment {
 	private void initialize() {
 		frmEditEntry = new JFrame();
 		frmEditEntry.setTitle("Edit Entry");
-		frmEditEntry.setBounds(100, 100, 450, 300);
+		frmEditEntry.setBounds(100, 100, 380, 302);
 		frmEditEntry.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmEditEntry.getContentPane().setLayout(null);
 		
