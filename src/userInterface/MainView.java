@@ -60,9 +60,10 @@ public class MainView {
 		DefaultListModel checkIn = new DefaultListModel();
 		DefaultListModel checkOut = new DefaultListModel();
 		JList checkOutList = new JList();
-		checkOutList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		//checkOutList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		JList checkInList = new JList();
+		//Test elements TODO populate list with real elements
 		checkOut.addElement("Element");
 		checkOut.addElement("Element2");
 		
@@ -106,7 +107,7 @@ public class MainView {
 				
 			}				
 		});
-		btnCheckOutItem.setBounds(169, 270, 138, 25);
+		btnCheckOutItem.setBounds(136, 270, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckOutItem);
 		
 		JButton btnCheckInItem = new JButton("Check In Item");
@@ -140,7 +141,7 @@ public class MainView {
 				
 			}				
 		});
-		btnCheckInItem.setBounds(503, 270, 138, 25);
+		btnCheckInItem.setBounds(472, 270, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnCheckInItem);
 		
 		//CHECK OUT LIST CODE
@@ -162,7 +163,7 @@ public class MainView {
 				a.frmAddEquipment.setVisible(true);
 			}
 		});
-		btnAddNewEquipment.setBounds(158, 304, 160, 25);
+		btnAddNewEquipment.setBounds(136, 304, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnAddNewEquipment);
 		
 		JButton btnReportDamagedEquipment = new JButton("Report Damaged Equipment");
@@ -184,7 +185,7 @@ public class MainView {
 				}
 			}
 		});
-		btnReportDamagedEquipment.setBounds(471, 304, 203, 25);
+		btnReportDamagedEquipment.setBounds(472, 342, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnReportDamagedEquipment);
 		
 		JButton btnRemoveEquipment = new JButton("Remove Equipment ");
@@ -211,7 +212,17 @@ public class MainView {
 				
 			}
 		});
-		btnRemoveEquipment.setBounds(320, 350, 160, 25);
+		btnRemoveEquipment.setBounds(136, 342, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnRemoveEquipment);
+		
+		JButton btnEditEntry = new JButton("Edit Entry");
+		btnEditEntry.addActionListener(new ActionListener() { //TODO ADD EDIT ENTRY VIEW
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//TODO ADD EDIT ENTRY CODE
+			}
+		});
+		btnEditEntry.setBounds(472, 308, 203, 25);
+		frmCaryInventoryManager.getContentPane().add(btnEditEntry);
 	}
 }

@@ -1,5 +1,7 @@
 package actualItems;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -36,14 +38,14 @@ public class DatabaseManager {
 		try {
 			Statement stmt = DBconnection.createStatement();
 			String sql = "CREATE TABLE equipment(" 
-			+"'id'  		INTEGER		NOT NULL "
+			+ "'id'  		INTEGER PRIMARY KEY AUTOINCREMENT,"
 			+ "'section'	TEXT		NOT NULL," 
 			+ "'box'		INTEGER		NOT NULL,"	
 			+ "'name'		TEXT		NOT NULL,"
 			+ "'status'		INTEGER		NOT NULL,"
 			+ "'repair'		INTEGER		NOT NULL,"
 			+ "'type' 		INTEGER		NOT NULL,"
-			+"PRIMARY KEY(name))";
+			+")";
 			stmt.executeUpdate(sql);
 			DBconnection.commit();
 			stmt.close();
@@ -68,7 +70,7 @@ public int addEquipment(Equipment eq) { // 1 if success, -1 if fail
 		}
 		
 		else { 
-			String sql = "INSERT INTO equipment (section, box, name, status, repair, type"
+			String sql = "INSERT INTO equipment (section, box, name, status, repair, type)"
 					+ "VALUES (" + "'" + eq.getSection() + "', " + "'" + eq.getBox() +"', " + "'" + eq.getName() +"', "
 					+ "'" + eq.getStatus() +"'," + "'" + eq.getRepair() + "'," + "'" + eq.getType() + "');";
 			stmt.executeUpdate(sql);
@@ -148,6 +150,41 @@ public Equipment retrieveEquipment(String name) {
 		}
 		
 	}
+
+public List<String> retrieveEquipmentList(String database) { //MAY BE AN ISSUE 
+	List<String> eqNameList = new ArrayList<String>();
+	// Connect to the database
+	Connection DBconnection = connectToDatabase();
+	try {
+		// Initialize a statement to execute
+		Statement stmt = DBconnection.createStatement();
+		// Construct the SQL select statement
+		String sql = "SELECT name, box,section from equipment;";
+		// Execute SQL statement and retrieve result set
+		ResultSet eqNameSet = stmt.executeQuery(sql);
+		// Construct list from result set
+		while (eqNameSet.next()) {
+			String eqName = eqNameSet.getString("name");
+			int eqBox = eqNameSet.getInt("box");
+			String eqSection = eqNameSet.getString("section");
+			eqNameList.add(eqName + "|" + eqBox + "|" + eqSection);
+		}
+		// Disconnect and close database
+		eqNameSet.close();
+		stmt.close();
+		DBconnection.close();
+	}
+	catch (SQLException e) {
+		System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		e.printStackTrace();
+	}
+
+	return eqNameList;
+}
+
+
+
+
 
 
 public void modifyStringEquipment(Equipment eq, String field, String val ){ 
