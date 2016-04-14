@@ -15,8 +15,10 @@ import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 
 import actualItems.DatabaseManager;
+import actualItems.Equipment;
 
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 
@@ -60,9 +62,10 @@ public class MainView {
 		DefaultListModel checkIn = new DefaultListModel();
 		DefaultListModel checkOut = new DefaultListModel();
 		JList checkOutList = new JList();
-		//checkOutList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		checkOutList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		JList checkInList = new JList();
+		checkInList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		//Test elements TODO populate list with real elements
 		checkOut.addElement("Element");
 		checkOut.addElement("Element2");
@@ -218,11 +221,32 @@ public class MainView {
 		JButton btnEditEntry = new JButton("Edit Entry");
 		btnEditEntry.addActionListener(new ActionListener() { //TODO ADD EDIT ENTRY VIEW
 			public void actionPerformed(ActionEvent arg0) {
-				
-				//TODO ADD EDIT ENTRY CODE
+				String name = (String) checkInList.getSelectedValue();
+				EditEquipment n = new EditEquipment(name);
 			}
 		});
 		btnEditEntry.setBounds(472, 308, 203, 25);
 		frmCaryInventoryManager.getContentPane().add(btnEditEntry);
+		
+		JButton btnRefreshLists = new JButton("Refresh Lists");
+		btnRefreshLists.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				checkIn.clear();
+				checkOut.clear();
+				DatabaseManager k = new DatabaseManager("equipment");
+				List<Equipment> equipment = k.retrieveEquipmentList("equipment");
+				//TODO For each loop adding elements in database to one list or the other based on status
+				for(Equipment i : equipment){ 
+					if(i.getStatus() == 0 ){ 
+						checkOut.addElement(i);
+					}
+					else{ 
+						checkIn.addElement(i);
+					}
+				}
+			}
+		});
+		btnRefreshLists.setBounds(348, 367, 119, 25);
+		frmCaryInventoryManager.getContentPane().add(btnRefreshLists);
 	}
 }

@@ -151,23 +151,22 @@ public Equipment retrieveEquipment(String name) {
 		
 	}
 
-public List<String> retrieveEquipmentList(String database) { //MAY BE AN ISSUE 
-	List<String> eqNameList = new ArrayList<String>();
+public List<Equipment> retrieveEquipmentList(String database) { //MAY BE AN ISSUE 
+	List<Equipment> eqNameList = new ArrayList<Equipment>();
 	// Connect to the database
 	Connection DBconnection = connectToDatabase();
 	try {
 		// Initialize a statement to execute
 		Statement stmt = DBconnection.createStatement();
 		// Construct the SQL select statement
-		String sql = "SELECT name, box,section from equipment;";
+		String sql = "SELECT name FROM equipment;";
 		// Execute SQL statement and retrieve result set
 		ResultSet eqNameSet = stmt.executeQuery(sql);
 		// Construct list from result set
 		while (eqNameSet.next()) {
-			String eqName = eqNameSet.getString("name");
-			int eqBox = eqNameSet.getInt("box");
-			String eqSection = eqNameSet.getString("section");
-			eqNameList.add(eqName + "|" + eqBox + "|" + eqSection);
+			Equipment eqName = retrieveEquipment(eqNameSet.getString("name"));
+			
+			eqNameList.add(eqName);
 		}
 		// Disconnect and close database
 		eqNameSet.close();
