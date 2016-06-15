@@ -59,8 +59,8 @@ public class EditEquipment {
 		frmEditEntry.setBounds(100, 100, 380, 302);
 		frmEditEntry.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmEditEntry.getContentPane().setLayout(null);
-		DatabaseManager kevin = new DatabaseManager("equipment");
-		Equipment matt = kevin.retrieveEquipment(name);
+		DatabaseManager dB = new DatabaseManager("equipment");
+		Equipment equip = dB.retrieveEquipment(name);
 		JLabel lblEditEquipmentEntry = new JLabel("Edit Equipment Entry");
 		lblEditEquipmentEntry.setFont(new Font("Georgia", Font.BOLD, 16));
 		lblEditEquipmentEntry.setBounds(96, 13, 186, 19);
@@ -87,24 +87,24 @@ public class EditEquipment {
 		textField.setBounds(186, 68, 116, 22);
 		frmEditEntry.getContentPane().add(textField);
 
-		textField.setText(matt.getName());
+		textField.setText(equip.getName());
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setBounds(186, 161, 116, 22);
 		frmEditEntry.getContentPane().add(textField_1);
-		textField_1.setText(matt.getSection());
+		textField_1.setText(equip.getSection());
 		textField_1.setColumns(10);
 		
 		JSpinner spinner = new JSpinner();
-		spinner.setValue(matt.getBox());
+		spinner.setValue(equip.getBox());
 		spinner.setBounds(186, 132, 116, 22);
 		frmEditEntry.getContentPane().add(spinner);
 		
 		JComboBox comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Select a Value", "Game", "Food", "Tools", "Other"}));
 		comboBox.setBounds(186, 100, 116, 22);
-		int type = matt.getType();
+		int type = equip.getType();
 		if(type == 1){ 
 			comboBox.setSelectedIndex(1);
 		}
@@ -132,9 +132,9 @@ public class EditEquipment {
 				if(type == 0){ 
 					JOptionPane.showMessageDialog(frmEditEntry, "One or more fields left empty. Please give each field a value.");
 				}
-				Equipment edit = new Equipment(matt.getID(), box, matt.getStatus() , matt.getRepair(), type, section, name);
-				kevin.deleteEquipment(matt);
-				kevin.addEquipment(edit); //TODO SHOULD NAME BE UP FOR EDIT??
+				Equipment edit = new Equipment(equip.getID(), box, equip.getStatus() , equip.getRepair(), type, section, name);
+				dB.deleteEquipment(equip);
+				dB.addEquipment(edit); //TODO SHOULD NAME BE UP FOR EDIT?? (No, 6-15-16)
 			}
 		});
 		btnNewButton.setBounds(53, 217, 97, 25);

@@ -194,11 +194,13 @@ public class MainView {
 		JButton btnRemoveEquipment = new JButton("Remove Equipment ");
 		btnRemoveEquipment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Equipment eq;
 				String dead;
 				int listIndex;
 				DatabaseManager m = new DatabaseManager("equipment");
 				if(checkOutList.isSelectionEmpty() == false){
-				dead= (String)checkOutList.getSelectedValue(); //Guarantee this will always be a string.
+				eq= (Equipment) checkOutList.getSelectedValue(); //Guarantee this will always be a string.
+				dead = eq.getName();
 				listIndex = checkOutList.getSelectedIndex();
 				m.deleteEquipment(m.retrieveEquipment(dead));
 				checkOut.remove(listIndex);
